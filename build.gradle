@@ -14,8 +14,14 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // JdbcTemplate 등 JDBC 연동에 필요한 기능을 제공한다
+    //implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    // DB 커넥션풀 기능을 제공한다
+    implementation group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: '8.5.32'
+    // MySQL 연결에 필요한 JDBC 드라이버를 제공한다
     implementation 'mysql:mysql-connector-java'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
