@@ -3,10 +3,11 @@ package config;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import spring.MemberDao;
 
 
 @Configuration
-public class DbConfig {
+public class AppCtx {
 
     // close 메서드는 커넥션 풀에 보관된 Connection을 닫음
     @Bean(destroyMethod = "close")
@@ -25,5 +26,10 @@ public class DbConfig {
         // 6.커넥션 풀에서 가져올 수 있는 최대 커넥션 개수 지정(기본값은 100)
         ds.setMaxActive(10);
         return ds;
+    }
+
+    @Bean
+    public MemberDao memberDao() {
+        return new MemberDao(dataSource());
     }
 }
