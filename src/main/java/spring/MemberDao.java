@@ -47,7 +47,19 @@ public class MemberDao {
 
     }
 
-    public Collection<Member> selectAll() {
-        return null;
+    public List<Member> selectAll() {
+        List<Member> results = jdbcTemplate.query("select * from MEMBER", new RowMapper<Member>() {
+            @Override
+            public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Member member = new Member(
+                        rs.getString("EMAILL"),
+                        rs.getString("PASSWORD"),
+                        rs.getString("NAME"),
+                        rs.getTimestamp("REGDATE").toLocalDateTime()
+                );
+                return member;
+            }
+        });
+        return results;
     }
 }
