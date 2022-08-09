@@ -24,8 +24,4 @@ public class MemberListPrinter {
         this.memberDao = memberDao;
     }
 
-    @Autowired
-    public void setPrinter(MemberSummaryPrinter printer) {
-        this.printer = printer;
-    }
 }
