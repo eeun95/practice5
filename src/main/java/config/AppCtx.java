@@ -25,6 +25,12 @@ public class AppCtx {
         ds.setInitialSize(2);
         // 6.커넥션 풀에서 가져올 수 있는 최대 커넥션 개수 지정(기본값은 100)
         ds.setMaxActive(10);
+        // 7.유휴 커넥션 검사
+        ds.setTestWhileIdle(true);
+        // 8. 최소 유휴 시간 3분
+        ds.setMinEvictableIdleTimeMillis(60000 * 3);
+        // 9.10초 주기
+        ds.setTimeBetweenEvictionRunsMillis(10 * 1000);
         return ds;
     }
 
