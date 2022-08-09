@@ -2,7 +2,6 @@ package main;
 
 import config.AppCtx;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import spring.Member;
 import spring.MemberDao;
 
