@@ -1,6 +1,7 @@
 package config;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import spring.MemberDao;
@@ -29,7 +30,7 @@ public class AppCtx {
         ds.setTestWhileIdle(true);
         // 8. 최소 유휴 시간 3분
         ds.setMinEvictableIdleTimeMillis(60000 * 3);
-        // 9.10초 주기
+        // 9.10초 주음
         ds.setTimeBetweenEvictionRunsMillis(10 * 1000);
         return ds;
     }
