@@ -4,10 +4,14 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import spring.MemberDao;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import spring.*;
 
 
 @Configuration
+@EnableTransactionManagement
 public class AppCtx {
 
     // close 메서드는 커넥션 풀에 보관된 Connection을 닫음
@@ -35,8 +39,43 @@ public class AppCtx {
         return ds;
     }
 
+    // 플랫폼 트랜잭션 매니저(PlatformTransactionManager) 빈 설정
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        DataSourceTransactionManager tm = new DataSourceTransactionManager();
+        tm.setDataSource(dataSource());
+        return tm;
+    }
+
     @Bean
     public MemberDao memberDao() {
         return new MemberDao(dataSource());
+    }
+
+    @Bean
+    public MemberRegisterService memberRegisterService() {
+        return new MemberRegisterService();
+    }
+
+    @Bean
+    public ChangePasswordService changePasswordService() {
+        ChangePasswordService pwdSvc = new ChangePasswordService();
+        pwdSvc.setMemberDao(memberDao());
+        return pwdSvc;
+    }
+
+    @Bean
+    public MemberPrinter memberPrinter() {
+        return new MemberPrinter();
+    }
+
+    @Bean
+    public MemberListPrinter memberListPrinter() {
+        return new MemberListPrinter();
+    }
+
+    @Bean
+    public MemberInfoPrinter memberInfoPrinter() {
+        return new MemberInfoPrinter();
     }
 }

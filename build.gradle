@@ -22,6 +22,10 @@ dependencies {
     // MySQL 연결에 필요한 JDBC 드라이버를 제공한다
     implementation 'mysql:mysql-connector-java'
 
+    // Logback 모듈 : 트랜잭션과 관련 로그 메시지 추가로 출력한다
+    implementation 'org.slf4j:jcl-over-slf4j'
+    implementation 'ch.qos.logback:logback-classic'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
