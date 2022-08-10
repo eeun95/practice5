@@ -2,9 +2,7 @@ package main;
 
 import config.AppCtx;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import spring.DuplicateMemberException;
-import spring.MemberRegisterService;
-import spring.RegisterRequest;
+import spring.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +28,7 @@ public class Main {
                 processNewCommand(command.split(" "));
             } else if (command.startsWith("change ")) {
                 processChangeCommand(command.split(" "));
-            } else if (command.startsWith("list ")) {
+            } else if (command.startsWith("list")) {
                 processListCommand();
             } else if (command.startsWith("info ")) {
                 processInfoCommand(command.split(" "));
@@ -46,6 +44,7 @@ public class Main {
             printHelp();
             return;
         }
+
         MemberRegisterService regSvc = ctx.getBean(MemberRegisterService.class);
         RegisterRequest req = new RegisterRequest();
         req.setEmail(arg[1]);
@@ -65,15 +64,37 @@ public class Main {
         }
     }
     private static void processChangeCommand(String[] arg) {
-
+        if (arg.length != 4) {
+            printHelp();
+            return;
+        }
+        ChangePasswordService changePwdSvc = ctx.getBean(ChangePasswordService.class);
+        try {
+            changePwdSvc.changePassword(arg[1], arg[2], arg[3]);
+            System.out.println("암호를 변경했습니다");
+        } catch (MemberNotFoundException e) {
+            System.out.println("존재하지 않는 이메일입니다");
+        } catch (WrongIdPasswordException e) {
+            System.out.println("이메일과 암호가 일치하지 않습니다");
+        }
     }
     private static void processListCommand() {
-
+        MemberListPrinter listPrinter = ctx.getBean(MemberListPrinter.class);
+        listPrinter.printAll();
     }
     private static void processInfoCommand(String[] arg) {
+        if (arg.length != 2) {
+            printHelp();
+            return;
+        }
+        MemberInfoPrinter infoPrinter = ctx.getBean(MemberInfoPrinter.class);
+        infoPrinter.printMemberInfo(arg[1]);
 
     }
     private static void printHelp() {
-
+        System.out.println("new 이메일 이름 비밀번호 비밀번호 확인");
+        System.out.println("change 이메일 구비번 신비번");
+        System.out.println("list");
+        System.out.println("info 이메일");
     }
 }
